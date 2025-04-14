@@ -5,6 +5,7 @@
 https://github.com/user-attachments/assets/d1da8aa4-a935-40c6-aaec-2bb1a02af19e
 
 
+The video does not contain any volume because github won't allow embedding audio in mp4 file, however you can find the video with audio in the Media folder.
 
 # 💻 Code
 
