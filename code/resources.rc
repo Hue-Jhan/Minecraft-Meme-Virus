@@ -1,0 +1,6 @@
+#include "resources.h"
+
+IDB_IMAGE RCDATA "stiv.jpg"
+IDB_VIDEO RCDATA "ciken.mp4"
+
+// add a commment to avoid formatting errors, happened to me idk why
