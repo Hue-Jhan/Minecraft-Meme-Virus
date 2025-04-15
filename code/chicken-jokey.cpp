@@ -3,15 +3,7 @@
 #include <fstream>
 #include <string>
 #include <thread>
-#include <shlobj.h>
 #include "resources.h"
-
-std::wstring toWide(const std::string& str) {
-    int size = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
-    std::wstring wstr(size, 0);
-    MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &wstr[0], size);
-    return wstr;
-}
 
 std::wstring getExeFolder() {
     wchar_t exePath[MAX_PATH];
@@ -23,34 +15,34 @@ std::wstring getExeFolder() {
 
 bool saveResourceToFile(WORD resID, const wchar_t* type, const std::wstring& outPath) {
     HRSRC hResource = FindResourceW(NULL, MAKEINTRESOURCEW(resID), RT_RCDATA);
-    if (!hResource) {
+    /* if (!hResource) {
         MessageBoxW(NULL, L"Failed to find the resource", L"Error", MB_OK | MB_ICONERROR); // for debugging
         return false;
-    }
+    } */
 
     DWORD dwSize = SizeofResource(NULL, hResource);
-    if (dwSize == 0) {
+    /* if (dwSize == 0) {
         MessageBoxW(NULL, L"Resource size is 0", L"Error", MB_OK | MB_ICONERROR);
         return false;
-    }
+    } */
 
     HGLOBAL hLoadedResource = LoadResource(NULL, hResource);
-    if (!hLoadedResource) {
+    /* if (!hLoadedResource) {
         MessageBoxW(NULL, L"Failed to load resource", L"Error", MB_OK | MB_ICONERROR);
         return false;
-    }
+    } */
 
     void* pResourceData = LockResource(hLoadedResource);
-    if (!pResourceData) {
+    /* if (!pResourceData) {
         MessageBoxW(NULL, L"Failed to lock resource", L"Error", MB_OK | MB_ICONERROR);
         return false;
-    }
+    } */
 
     std::ofstream out(outPath, std::ios::binary);
-    if (!out) {
+    /* if (!out) {
         MessageBoxW(NULL, L"Failed to open output file", L"Error", MB_OK | MB_ICONERROR);
         return false;
-    }
+    } */
 
     out.write(reinterpret_cast<char*>(pResourceData), dwSize);
     out.close();
@@ -75,7 +67,7 @@ void moveMouse() {
     while (true) {
         POINT p;
         GetCursorPos(&p);
-        SetCursorPos(p.x + 1, p.y + 1);
+        SetCursorPos(p.x + 10, p.y + 10);
         Sleep(500);
     }
 }
@@ -111,7 +103,7 @@ int main() {
 
     // Extract resources and save them in the exe folder
     if (!saveResourceToFile(IDB_IMAGE, RT_RCDATA, imgPath)) {
-        MessageBoxW(NULL, L"Failed to extract image", L"Error", MB_OK | MB_ICONERROR);
+        MessageBoxW(NULL, L"Failed to extract image", L"Error", MB_OK | MB_ICONERROR); // remove dis messagebox box
         return 1;
     }
 
